@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Calculator</title>
+</head>
+<body>
+    <h2>Simple Calculator</h2>
+
+    <input type="number" id="num1" placeholder="Enter first number">
+    <br><br>
+
+    <select id="op">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+    <br><br>
+
+    <input type="number" id="num2" placeholder="Enter second number">
+    <br><br>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <h3 id="result"></h3>
+
+    <script>
+        async function calculate() {
+            const num1 = document.getElementById("num1").value;
+            const num2 = document.getElementById("num2").value;
+            const op = document.getElementById("op").value;
+
+            const response = await fetch("http://localhost:3000/calc", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ num1, num2, op })
+            });
+
+            const data = await response.json();
+            document.getElementById("result").innerText = "Result: " + data.result;
+        }
+    </script>
+</body>
+</html>
